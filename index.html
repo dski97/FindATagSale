@@ -20,12 +20,14 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
       "esri/widgets/Search",
-      "esri/widgets/Expand"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
+      "esri/widgets/Expand",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer",
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
-        basemap: "arcgis-imagery" // Basemap layer
+        basemap: "satellite" // Basemap layer
       });
 
       //view of Mount Everest
@@ -35,6 +37,38 @@
         zoom: 9, // Zoom level
         container: "viewDiv" // Div element
       });
+
+      //adding the const for the graphics layer
+      const graphicsLayer = new GraphicsLayer();
+      map.add(graphicsLayer);
+
+      //adding the const for the point for mount everest
+      const point = {
+        type: "point",
+        longitude: 86.925,
+        latitude: 27.988
+      };
+
+      //add the code to define the style for the point
+      const simpleMarkerSymbol = {
+        type: "simple-marker",
+        style: "square",
+        size: "20px",
+        color: [226, 119, 40], // Orange
+        outline: {
+          color: [255, 255, 255], // White
+          width: 2
+        }
+      };
+
+      //point together the geometry with the symbol to create a graphic
+      const pointGraphic = new Graphic({
+        geometry: point,
+        symbol: simpleMarkerSymbol
+      });
+
+      //add the graphic to the view
+      graphicsLayer.add(pointGraphic);
 
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
