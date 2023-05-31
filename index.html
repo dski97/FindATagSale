@@ -19,8 +19,9 @@
       "esri/views/MapView",
       "esri/widgets/BasemapGallery",
       "esri/widgets/Locate",
-      "esri/widgets/Search"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search) {
+      "esri/widgets/Search",
+      "esri/widgets/Expand"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -35,11 +36,15 @@
         container: "viewDiv" // Div element
       });
 
-      // Create a BasemapGallery widget instance and add it to the view
-      const basemapGallery = new BasemapGallery({
-        view: view
+      // Expand widget for basemap gallery
+      const bgExpand = new Expand({
+        view: view,
+        content: new BasemapGallery({
+          view: view
+        })
       });
-      view.ui.add(basemapGallery, "top-right");
+      view.ui.add(bgExpand, "top-right");
+    
 
       // Create a Locate widget instance and add it to the view
       const locate = new Locate({
@@ -52,11 +57,12 @@
         view: view
       });
       view.ui.add(searchWidget, {
-        position: "top-right",
+        position: "top-left",
         index: 2
       });
+    });
 
-    });  
+     
   </script>
 
 
