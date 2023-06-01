@@ -23,7 +23,9 @@
       "esri/widgets/Expand",
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer) {
+      "esri/geometry/Polyline",
+      "esri/geometry/Polygon"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -34,7 +36,7 @@
       const view = new MapView({
         map: map,
         center: [86.9250, 27.9881], // Longitude, latitude
-        zoom: 9, // Zoom level
+        zoom: 10, // Zoom level
         container: "viewDiv" // Div element
       });
 
@@ -82,7 +84,96 @@
       //add the graphic to the view
       graphicsLayer.add(pointGraphic);
 
-     
+     // Define the path of the hiking trail as an array of points
+     const trailPath = [
+      [86.9250, 27.9881],  // Mount Everest
+      [86.7140, 27.8069]   // Namche Bazaar
+      ];
+
+      // Create a polyline geometry from the path
+      const trailPolyline = new Polyline({
+        paths: [trailPath],
+        spatialReference: { wkid: 4326 } // Use WGS84 geographic coordinates
+      });
+
+      // Define the style for the polyline
+      const trailSymbol = {
+        type: "simple-line",
+        color: [255, 0, 0, 0.8], // Red with 80% opacity
+        width: 3
+      };
+
+      // Define the popup template for the polyline
+      const polylinePopupTemplate = {
+        title: "{PolylineName}",
+        content: "{PolylineDescription}"
+      };
+
+      const polylineAttributes = {
+        PolylineName: "Trail to Namche Bazaar",
+        PolylineDescription: "This is a simplified path from Mount Everest to Namche Bazaar, the closest town to Mount Everest."
+      };
+
+      // Create a graphic from the polyline geometry and symbol
+      const trailGraphic = new Graphic({
+        geometry: trailPolyline,
+        symbol: trailSymbol,
+        attributes: polylineAttributes,
+        popupTemplate: polylinePopupTemplate
+      });
+
+
+      // Add the graphic to the map
+      graphicsLayer.add(trailGraphic);
+
+      // Rough approximation of the boundaries of Sagarmatha National Park
+      const parkBoundary = [
+          [86.5, 27.7],  // Bottom left corner
+          [87.2, 27.7],  // Bottom right corner
+          [87.2, 28.1],  // Top right corner
+          [86.5, 28.1],  // Top left corner
+          [86.5, 27.7]   // Close the polygon by repeating the first point
+        ];
+
+        // Create a polygon geometry
+        const parkPolygon = new Polygon({
+          rings: [parkBoundary],
+          spatialReference: { wkid: 4326 }  // Use WGS84 geographic coordinates
+        });
+
+        // Define the style for the polygon
+        const parkSymbol = {
+          type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+          color: [0, 123, 255, 0.1],  // Light blue with 10% opacity
+          outline: {
+            color: [255, 255, 255],
+            width: 1
+          }
+        };
+
+        // Define the popup template for the polygon
+        const polygonPopupTemplate = {
+          title: "{PolygonName}",
+          content: "{PolygonDescription}"
+        };
+
+        const polygonAttributes = {
+          PolygonName: "Sagarmatha National Park",
+          PolygonDescription: "This is a simplified representation of Sagarmatha National Park."
+        };
+
+        // Create a graphic from the polygon geometry and symbol
+        const parkGraphic = new Graphic({
+          geometry: parkPolygon,
+          symbol: parkSymbol,
+          attributes: polygonAttributes,
+          popupTemplate: polygonPopupTemplate
+        });
+
+
+        // Add the graphic to the map
+        graphicsLayer.add(parkGraphic);
+      
 
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
