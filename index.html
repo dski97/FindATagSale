@@ -61,14 +61,28 @@
         }
       };
 
+       //define the popup template
+       const popupTemplate = {
+        title: "{Name}",
+        content: "{Description}"
+      }
+      const attributes = {
+        Name: "Mount Everest",
+        Description: "The highest mountain in the world (Elevation of 29,035ft.)"
+      }
+
       //point together the geometry with the symbol to create a graphic
       const pointGraphic = new Graphic({
         geometry: point,
-        symbol: simpleMarkerSymbol
+        symbol: simpleMarkerSymbol,
+        attributes: attributes,
+        popupTemplate: popupTemplate
       });
 
       //add the graphic to the view
       graphicsLayer.add(pointGraphic);
+
+     
 
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
