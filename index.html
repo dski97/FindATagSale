@@ -129,12 +129,22 @@
 
       // Rough approximation of the boundaries of Sagarmatha National Park
       const parkBoundary = [
-          [86.5, 27.7],  // Bottom left corner
-          [87.2, 27.7],  // Bottom right corner
-          [87.2, 28.1],  // Top right corner
-          [86.5, 28.1],  // Top left corner
-          [86.5, 27.7]   // Close the polygon by repeating the first point
-        ];
+        [86.7, 27.7],  
+        [86.8, 27.75],
+        [86.9, 27.76], 
+        [87.0, 27.77], 
+        [87.1, 27.8],  
+        [87.2, 27.85], 
+        [87.1, 27.9],  
+        [87.0, 27.95], 
+        [86.9, 28.0],  
+        [86.8, 28.05], 
+        [86.7, 28.1],  
+        [86.6, 28.05], 
+        [86.5, 28.0],  
+        [86.6, 27.85], 
+        [86.7, 27.7]   
+    ]
 
         // Create a polygon geometry
         const parkPolygon = new Polygon({
