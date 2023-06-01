@@ -175,12 +175,26 @@
         // Add the graphic to the map
         graphicsLayer.add(parkGraphic);
 
+        //Define a popup template for the feature layer
+        const featureLayerPopupTemplate = {
+          title: "Places of Worship",
+          content: "<b>Name:</b> {name} <br><b>Class:</b> {fclass} <br><b>District:</b> {district}"
+        }
+
+
         // Create a FeatureLayer from a service (place of worship)
         const placesofworship = new FeatureLayer({
-          url: "https://livingatlas.esri.in/server/rest/services/Place_of_Worship/FeatureServer"
-        });
-        map.add(placesofworship);
+          url: "https://livingatlas.esri.in/server/rest/services/Place_of_Worship/FeatureServer",
       
+        //add the popup template to the feature layer
+        outFields: ["name", "fclass", "district"],
+        popupTemplate: featureLayerPopupTemplate
+        });
+
+        // Add the feature layer to the map
+        map.add(placesofworship);
+  
+  
 
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
