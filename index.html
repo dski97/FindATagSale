@@ -24,8 +24,9 @@
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
       "esri/geometry/Polyline",
-      "esri/geometry/Polygon"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon) {
+      "esri/geometry/Polygon",
+      "esri/layers/FeatureLayer",
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -173,6 +174,12 @@
 
         // Add the graphic to the map
         graphicsLayer.add(parkGraphic);
+
+        // Create a FeatureLayer from a service (place of worship)
+        const placesofworship = new FeatureLayer({
+          url: "https://livingatlas.esri.in/server/rest/services/Place_of_Worship/FeatureServer"
+        });
+        map.add(placesofworship);
       
 
       // Expand widget for basemap gallery
