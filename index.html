@@ -26,8 +26,10 @@
       "esri/geometry/Polyline",
       "esri/geometry/Polygon",
       "esri/layers/FeatureLayer",
-      "esri/widgets/Editor"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, Editor) {
+      "esri/widgets/Editor",
+      "esri/widgets/Legend"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer,
+       Polyline, Polygon, FeatureLayer, Editor, Legend) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -388,6 +390,12 @@
         position: "top-left",
         index: 2
       });
+
+      // Create a Legend widget instance and add it to the view
+      const legend = new Legend({
+        view: view
+      });
+      view.ui.add(legend, "bottom-left");
     });
 
      
