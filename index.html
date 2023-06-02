@@ -26,7 +26,8 @@
       "esri/geometry/Polyline",
       "esri/geometry/Polygon",
       "esri/layers/FeatureLayer",
-    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer) {
+      "esri/widgets/Editor"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer, Polyline, Polygon, FeatureLayer, Editor) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -294,6 +295,32 @@
         // Add the feature layer to the map
         map.add(transportAirport);
         map.add(transportHelicopter);
+
+        //adding the const for the editable feature layer
+        const myAirports = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_Dom/FeatureServer",
+        
+        //adding the popup here
+        outFields: ["AirportCode"],
+
+        });
+
+        //adding the feature layer to the map
+        map.add(myAirports);
+
+        //set the point layer's LayerInfo
+        const pointInfos = {
+          layer: myAirports,
+        }
+
+        //begin Editor constructor
+        const editor = new Editor({
+          view: view,
+          layerInfos: [pointInfos]
+        }); //End Editor constructor
+
+        //Add the widget to the view
+        view.ui.add(editor, "top-right");
 
   
 
