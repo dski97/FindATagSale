@@ -279,7 +279,8 @@
           definitionExpression: "fclass = 'Airport'",
           outFields: ["name", "fclass", "district"],
           labelingInfo: [airportLabels],
-          popupTemplate: featureLayerPopupTemplate_transport
+          popupTemplate: featureLayerPopupTemplate_transport,
+          title: "Airports"
         });
         
         // Create a FeatureLayer from a service (transport) - helicopter
@@ -289,7 +290,8 @@
           definitionExpression: "fclass = 'Helipad'",
           outFields: ["name", "fclass", "district"],
           labelingInfo: [helicopterLabels],
-          popupTemplate: featureLayerPopupTemplate_transport
+          popupTemplate: featureLayerPopupTemplate_transport,
+          title: "Helipads"
         });
       
         // Add the feature layer to the map
