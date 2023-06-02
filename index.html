@@ -395,7 +395,15 @@
       const legend = new Legend({
         view: view
       });
-      view.ui.add(legend, "bottom-left");
+
+      const legendExpand = new Expand({
+        view: view,
+        content: legend,
+        expandIconClass: "esri-icon-layer-list",
+        expandTooltip: "Legend",
+        expanded: true
+      });
+      view.ui.add(legendExpand, "bottom-left");
     });
 
      
