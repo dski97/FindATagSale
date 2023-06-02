@@ -30,7 +30,7 @@
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
-        basemap: "satellite" // Basemap layer
+        basemap: "arcgis-topographic" // Basemap layer
       });
 
       //view of Mount Everest
@@ -230,6 +230,26 @@
           }
         };
 
+        //const for helicopter labels
+        const helicopterLabels = {
+          symbol: {
+            type: "text",
+            color: "#FFFFFF",
+            haloColor: "#1A5276",
+            haloSize: "2px",
+            font: {
+              size: 12,
+              family: "Noto Sans",
+              style: "italic",
+              weight: "normal"
+            }
+          },
+          labelPlacement: "above-center",
+          labelExpressionInfo: {
+            expression: "$feature.name"
+          }
+        };
+
         //const for icon airport
         const airportRenderer = {
           type: "simple",
@@ -241,8 +261,18 @@
           }
         };
 
-        // Create a FeatureLayer from a service (transport)
-        const transport = new FeatureLayer({
+        //const for icon helicopter
+        const helicopterRenderer = {
+          type: "simple",
+          symbol: {
+            type: "picture-marker",
+            url: "https://dski97.github.io/agol-dom/heliport.png",
+            width: "18px",
+            height: "18px"
+          }};
+
+        // Create a FeatureLayer from a service (transport) - airport
+        const transportAirport = new FeatureLayer({
           url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Transport/FeatureServer",
           renderer: airportRenderer,
           definitionExpression: "fclass = 'Airport'",
@@ -251,8 +281,19 @@
           popupTemplate: featureLayerPopupTemplate_transport
         });
         
+        // Create a FeatureLayer from a service (transport) - helicopter
+        const transportHelicopter = new FeatureLayer({
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Transport/FeatureServer",
+          renderer: helicopterRenderer,
+          definitionExpression: "fclass = 'Helipad'",
+          outFields: ["name", "fclass", "district"],
+          labelingInfo: [helicopterLabels],
+          popupTemplate: featureLayerPopupTemplate_transport
+        });
+      
         // Add the feature layer to the map
-        map.add(transport);
+        map.add(transportAirport);
+        map.add(transportHelicopter);
 
   
 
