@@ -36,11 +36,11 @@
         basemap: "arcgis-topographic" // Basemap layer
       });
 
-      //view of Mount Everest
+      //view of connecticut
       const view = new MapView({
         map: map,
-        center: [86.9250, 27.9881], // Longitude, latitude
-        zoom: 10, // Zoom level
+        center: [-72.7, 41.7], // Longitude, latitude
+        zoom: 9, // Zoom level
         container: "viewDiv" // Div element
       });
 
@@ -87,106 +87,6 @@
 
       //add the graphic to the view
       graphicsLayer.add(pointGraphic);
-
-     // Define the path of the hiking trail as an array of points
-     const trailPath = [
-      [86.9250, 27.9881],  // Mount Everest
-      [86.7140, 27.8069]   // Namche Bazaar
-      ];
-
-      // Create a polyline geometry from the path
-      const trailPolyline = new Polyline({
-        paths: [trailPath],
-        spatialReference: { wkid: 4326 } // Use WGS84 geographic coordinates
-      });
-
-      // Define the style for the polyline
-      const trailSymbol = {
-        type: "simple-line",
-        color: [255, 0, 0, 0.8], // Red with 80% opacity
-        width: 3
-      };
-
-      // Define the popup template for the polyline
-      const polylinePopupTemplate = {
-        title: "{PolylineName}",
-        content: "{PolylineDescription}"
-      };
-
-      const polylineAttributes = {
-        PolylineName: "Trail to Namche Bazaar",
-        PolylineDescription: "This is a simplified path from Mount Everest to Namche Bazaar, the closest town to Mount Everest."
-      };
-
-      // Create a graphic from the polyline geometry and symbol
-      const trailGraphic = new Graphic({
-        geometry: trailPolyline,
-        symbol: trailSymbol,
-        attributes: polylineAttributes,
-        popupTemplate: polylinePopupTemplate
-      });
-
-
-      // Add the graphic to the map
-      graphicsLayer.add(trailGraphic);
-
-      // Rough approximation of the boundaries of Sagarmatha National Park
-      const parkBoundary = [
-        [86.7, 27.7],  
-        [86.8, 27.75],
-        [86.9, 27.76], 
-        [87.0, 27.77], 
-        [87.1, 27.8],  
-        [87.2, 27.85], 
-        [87.1, 27.9],  
-        [87.0, 27.95], 
-        [86.9, 28.0],  
-        [86.8, 28.05], 
-        [86.7, 28.1],  
-        [86.6, 28.05], 
-        [86.5, 28.0],  
-        [86.6, 27.85], 
-        [86.7, 27.7]   
-    ]
-
-        // Create a polygon geometry
-        const parkPolygon = new Polygon({
-          rings: [parkBoundary],
-          spatialReference: { wkid: 4326 }  // Use WGS84 geographic coordinates
-        });
-
-        // Define the style for the polygon
-        const parkSymbol = {
-          type: "simple-fill",  // autocasts as new SimpleFillSymbol()
-          color: [0, 123, 255, 0.1],  // Light blue with 10% opacity
-          outline: {
-            color: [255, 255, 255],
-            width: 1
-          }
-        };
-
-        // Define the popup template for the polygon
-        const polygonPopupTemplate = {
-          title: "{PolygonName}",
-          content: "{PolygonDescription}"
-        };
-
-        const polygonAttributes = {
-          PolygonName: "Sagarmatha National Park",
-          PolygonDescription: "This is a simplified representation of Sagarmatha National Park."
-        };
-
-        // Create a graphic from the polygon geometry and symbol
-        const parkGraphic = new Graphic({
-          geometry: parkPolygon,
-          symbol: parkSymbol,
-          attributes: polygonAttributes,
-          popupTemplate: polygonPopupTemplate
-        });
-
-
-        // Add the graphic to the map
-        graphicsLayer.add(parkGraphic);
 
         //Define a popup template for the feature layer
         const featureLayerPopupTemplate = {
@@ -336,34 +236,6 @@
         // Add the feature layer to the map
         map.add(transportAirport);
         map.add(transportHelicopter);
-
-        //adding the const for the editable feature layer
-        const myAirports = new FeatureLayer({
-        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_Dom/FeatureServer",
-        renderer: airportVisitedRenderer,
-        labelingInfo: [airportVisitedLabels],
-        popupTemplate: featureLayerPopupTemplate_airport,
-        outFields: ["AirportCode"],
-        title: "Airports Visited",
-        });
-
-        //adding the feature layer to the map
-        map.add(myAirports);
-
-        //set the point layer's LayerInfo
-        const pointInfos = {
-          layer: myAirports,
-        }
-
-        //begin Editor constructor
-        const editor = new Editor({
-          view: view,
-          layerInfos: [pointInfos]
-        }); //End Editor constructor
-
-        //Add the widget to the view
-        view.ui.add(editor, "top-right");
-
   
 
       // Expand widget for basemap gallery
