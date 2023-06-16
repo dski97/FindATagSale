@@ -127,6 +127,33 @@
 
         // Add the feature layer to the map
         map.add(placesofworship);
+
+        //add the feature layer for ct towns
+        const ct_polygons = new FeatureLayer({
+        url: "https://services1.arcgis.com/FjPcSmEFuDYlIdKC/ArcGIS/rest/services/Connecticut_and_Vicinity_Town_Boundary_Set/FeatureServer/1"
+        });
+        
+        map.add(ct_polygons);
+        //disable the labels for the ct towns
+        ct_polygons.labelingInfo = [];
+        //set the definition expression for the ct towns
+        ct_polygons.definitionExpression = "STATE_COD = 'CT' AND LAND_CLASS <> 'Water'";
+        //configure the popup for the ct towns
+        ct_polygons.popupTemplate = {
+          title: "{TOWN_NAME}",
+        }
+
+        //add the other donation centers feature layer
+        const otherDonationCenters = new FeatureLayer({
+        url: "https://services5.arcgis.com/pdfXHSYV8F56tWCx/ArcGIS/rest/services/USA_DGR_Operators/FeatureServer/0"
+        });
+        map.add(otherDonationCenters);
+        //set the defintion expression for the other donation centers
+        otherDonationCenters.definitionExpression = "STATE = 'CT'";
+        otherDonationCenters.popupTemplate = {
+          title: "Donation Center: {CONAME}",
+          content: "The Donation Center <b>{CONAME}</b> is located on <b>{STREET}</b> in <b>{CITY}</b>."
+        }
   
         //define the popup template for the feature layer (transport)
         const featureLayerPopupTemplate_transport = {
