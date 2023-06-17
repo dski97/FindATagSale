@@ -154,6 +154,18 @@
           title: "Donation Center: {CONAME}",
           content: "The Donation Center <b>{CONAME}</b> is located on <b>{STREET}</b> in <b>{CITY}</b>."
         }
+
+        const goodwillDonationCenters = new FeatureLayer({
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/ArcGIS/rest/services/USA_Goodwill_Locations/FeatureServer/0"
+          });
+          map.add(goodwillDonationCenters);
+          //set the defintion expression for the other donation centers
+          goodwillDonationCenters.definitionExpression = "STATE = 'CT'";
+          goodwillDonationCenters.popupTemplate = {
+            title: "Goodwill Donation Center: {ADDRESS}",
+            content: "This Goodwill Donation Center <b>{NAME}</b> is located on <b>{match_addr}</b>. <br> <br> This store opened on <b>{OPENDATE}.<b/>"
+          }
+
   
         //define the popup template for the feature layer (transport)
         const featureLayerPopupTemplate_transport = {
