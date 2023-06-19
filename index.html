@@ -166,6 +166,12 @@
             content: "This Goodwill Donation Center <b>{NAME}</b> is located on <b>{match_addr}</b>. <br> <br> This store opened on <b>{OPENDATE}.<b/>"
           }
 
+          const tagsales_fc = new FeatureLayer({
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_453b28a5c1164c4db099d02150f858f9_results/FeatureServer/0"
+          });
+          map.add(tagsales_fc);
+          
+
   
         //define the popup template for the feature layer (transport)
         const featureLayerPopupTemplate_transport = {
