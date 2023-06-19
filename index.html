@@ -85,6 +85,7 @@
         const otherDonationCenters = new FeatureLayer({
         url: "https://services5.arcgis.com/pdfXHSYV8F56tWCx/ArcGIS/rest/services/USA_DGR_Operators/FeatureServer/0",
         title: "Other Donation Centers",
+        visible: false,
         renderer: {
           type: "simple",
           symbol: {
@@ -92,7 +93,7 @@
             url: "https://raw.githubusercontent.com/dski97/FindATagSale/main/donation.png",
             width: "20px",
             height: "20px"
-          }
+          },
         }
         });
         map.add(otherDonationCenters);
@@ -170,7 +171,7 @@
       // Create a Legend widget instance and add it to the view
       const legend = new Legend({
         view: view,
-        respectLayerVisibility: false,
+        respectLayerVisibility: true,
       });
 
       const legendExpand = new Expand({
