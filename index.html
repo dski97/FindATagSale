@@ -47,9 +47,10 @@
       "esri/geometry/Polygon",
       "esri/layers/FeatureLayer",
       "esri/widgets/Editor",
-      "esri/widgets/Legend"
+      "esri/widgets/Legend",
+      "esri/widgets/LayerList"
     ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search, Expand, Graphic, GraphicsLayer,
-       Polyline, Polygon, FeatureLayer, Editor, Legend) {
+       Polyline, Polygon, FeatureLayer, Editor, Legend, LayerList) {
 
       esriConfig.apiKey = "AAPK0401ef0eec41482c8aa0f4e7b5b118c24q7q7NIv8wbHpLPAB-Gvij3hfV_lpqWtqNzqcjDlMqJCmQc5meuAETYsSI2KOgu_";
       const map = new Map({
@@ -66,7 +67,8 @@
 
         //add the feature layer for ct towns
         const ct_polygons = new FeatureLayer({
-        url: "https://services1.arcgis.com/FjPcSmEFuDYlIdKC/ArcGIS/rest/services/Connecticut_and_Vicinity_Town_Boundary_Set/FeatureServer/1"
+        url: "https://services1.arcgis.com/FjPcSmEFuDYlIdKC/ArcGIS/rest/services/Connecticut_and_Vicinity_Town_Boundary_Set/FeatureServer/1",
+        title: "Connecticut Municipalities"
         });
         
         map.add(ct_polygons);
@@ -82,6 +84,7 @@
         //add the other donation centers feature layer
         const otherDonationCenters = new FeatureLayer({
         url: "https://services5.arcgis.com/pdfXHSYV8F56tWCx/ArcGIS/rest/services/USA_DGR_Operators/FeatureServer/0",
+        title: "Other Donation Centers",
         renderer: {
           type: "simple",
           symbol: {
@@ -101,7 +104,8 @@
         }
 
         const goodwillDonationCenters = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/ArcGIS/rest/services/USA_Goodwill_Locations/FeatureServer/0"
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/ArcGIS/rest/services/USA_Goodwill_Locations/FeatureServer/0",
+          title: "Connecticut Goodwill Locations"
           });
           map.add(goodwillDonationCenters);
           //set the defintion expression for the other donation centers
@@ -111,8 +115,14 @@
             content: "This Goodwill Donation Center <b>{NAME}</b> is located on <b>{match_addr}</b>. <br> <br> This store opened on <b>{OPENDATE}.<b/>"
           }
 
+          //need  a constant that will hold the current date
+          const now = new Date();
+          const currentDate = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+
+
           const tagsales_fc = new FeatureLayer({
             url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_453b28a5c1164c4db099d02150f858f9_results/FeatureServer/0",
+            title: " Current or Future Tag Sales",
             renderer: {
               type: "simple",
               symbol: {
@@ -120,10 +130,17 @@
                 url: "https://dski97.github.io/FindATagSale/YARD-SALE.png",
                 width: "30px",
                 height: "30px"
-              }
+              },
             }
             });
             map.add(tagsales_fc);
+            ///set the defintion expression so that only the current or future tag sales are shown
+            tagsales_fc.definitionExpression = `on_what_date_does_the_tag_sale >= DATE '${currentDate}'`;
+            //pop up tempalte for the tag sales
+            tagsales_fc.popupTemplate = {
+            title: "Tag Sale Hosted By: {who_is_hosting_this_tag_sale}",
+            content: `This tag sale is scheduled to start on <b>{on_what_date_is_the_tag_sale_sc}</b> and end on <b>{on_what_date_does_the_tag_sale}</b>. The items listed at the sale include: <b>{provide_a_brief_description_on}</b>. If you have any questions regarding the tag sale, you can contact the host at this email: <a href="mailto:{is_there_an_e_mail_someone_who}">{is_there_an_e_mail_someone_who}</a>.`
+          };
  
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
@@ -152,7 +169,8 @@
 
       // Create a Legend widget instance and add it to the view
       const legend = new Legend({
-        view: view
+        view: view,
+        respectLayerVisibility: false,
       });
 
       const legendExpand = new Expand({
@@ -163,7 +181,24 @@
         expanded: true
       });
       view.ui.add(legendExpand, "bottom-left");
-    });
+
+     // Create a LayerList widget
+      const layerList = new LayerList({
+        view: view
+      });
+
+      // Put the LayerList widget into an Expand widget
+      const layerListExpand = new Expand({
+        view: view,
+        content: layerList,
+        expandIconClass: "esri-icon-layer-list",  // Change this to choose the icon for the button
+        expandTooltip: "Layers"  // Tooltip text for the button
+      });
+
+      // Add the Expand widget to the view
+      view.ui.add(layerListExpand, "top-right");
+      });
+
 
      
   </script>
