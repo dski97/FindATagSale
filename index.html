@@ -167,9 +167,19 @@
           }
 
           const tagsales_fc = new FeatureLayer({
-            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_453b28a5c1164c4db099d02150f858f9_results/FeatureServer/0"
-          });
-          map.add(tagsales_fc);
+            url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_453b28a5c1164c4db099d02150f858f9_results/FeatureServer/0",
+            renderer: {
+              type: "simple",
+              symbol: {
+                type: "picture-marker",
+                url: "https://dski97.github.io/FindATagSale/YARD-SALE.png",
+                width: "30px",
+                height: "30px"
+              }
+            }
+            });
+            map.add(tagsales_fc);
+
           
 
   
