@@ -64,70 +64,6 @@
         container: "viewDiv" // Div element
       });
 
-
-      //adding the const for the graphics layer
-      const graphicsLayer = new GraphicsLayer();
-      map.add(graphicsLayer);
-
-      //adding the const for the point for mount everest
-      const point = {
-        type: "point",
-        longitude: 86.925,
-        latitude: 27.988
-      };
-
-      //add the code to define the style for the point
-      const simpleMarkerSymbol = {
-        type: "simple-marker",
-        style: "square",
-        size: "20px",
-        color: [226, 119, 40], // Orange
-        outline: {
-          color: [255, 255, 255], // White
-          width: 2
-        }
-      };
-
-       //define the popup template
-       const popupTemplate = {
-        title: "{Name}",
-        content: "{Description}"
-      }
-      const attributes = {
-        Name: "Mount Everest",
-        Description: "The highest mountain in the world (Elevation of 29,035ft.)"
-      }
-
-      //point together the geometry with the symbol to create a graphic
-      const pointGraphic = new Graphic({
-        geometry: point,
-        symbol: simpleMarkerSymbol,
-        attributes: attributes,
-        popupTemplate: popupTemplate
-      });
-
-      //add the graphic to the view
-      graphicsLayer.add(pointGraphic);
-
-        //Define a popup template for the feature layer
-        const featureLayerPopupTemplate = {
-          title: "Places of Worship",
-          content: "<b>Name:</b> {name} <br><b>Class:</b> {fclass} <br><b>District:</b> {district}"
-        }
-
-
-        // Create a FeatureLayer from a service (place of worship)
-        const placesofworship = new FeatureLayer({
-          url: "https://livingatlas.esri.in/server/rest/services/Place_of_Worship/FeatureServer",
-      
-        //add the popup template to the feature layer
-        outFields: ["name", "fclass", "district"],
-        popupTemplate: featureLayerPopupTemplate
-        });
-
-        // Add the feature layer to the map
-        map.add(placesofworship);
-
         //add the feature layer for ct towns
         const ct_polygons = new FeatureLayer({
         url: "https://services1.arcgis.com/FjPcSmEFuDYlIdKC/ArcGIS/rest/services/Connecticut_and_Vicinity_Town_Boundary_Set/FeatureServer/1"
@@ -145,7 +81,16 @@
 
         //add the other donation centers feature layer
         const otherDonationCenters = new FeatureLayer({
-        url: "https://services5.arcgis.com/pdfXHSYV8F56tWCx/ArcGIS/rest/services/USA_DGR_Operators/FeatureServer/0"
+        url: "https://services5.arcgis.com/pdfXHSYV8F56tWCx/ArcGIS/rest/services/USA_DGR_Operators/FeatureServer/0",
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "picture-marker",
+            url: "https://raw.githubusercontent.com/dski97/FindATagSale/main/donation.png",
+            width: "20px",
+            height: "20px"
+          }
+        }
         });
         map.add(otherDonationCenters);
         //set the defintion expression for the other donation centers
@@ -179,141 +124,7 @@
             }
             });
             map.add(tagsales_fc);
-
-          
-
-  
-        //define the popup template for the feature layer (transport)
-        const featureLayerPopupTemplate_transport = {
-          title: "Transport",
-          content: "<b>Name:</b> {name} <br><b>Class:</b> {fclass} <br><b>District:</b> {district}"
-        }
-
-        //define the popup template for the editable feature layer (airport)
-        const featureLayerPopupTemplate_airport = {
-          title: "Airport Visited",
-          content: "<b>Airport Code:</b> {AirportCode}"
-        }
-        
-        //const to make airport labels
-        const airportLabels = {
-          symbol: {
-            type: "text",
-            color: "#FFFFFF",
-            haloColor: "#5E8D74",
-            haloSize: "2px",
-            font: {
-              size: 12,
-              family: "Noto Sans",
-              style: "italic",
-              weight: "normal"
-            }
-          },
-          labelPlacement: "above-center",
-          labelExpressionInfo: {
-            expression: "$feature.name"
-          }
-        };
-
-        //const for helicopter labels
-        const helicopterLabels = {
-          symbol: {
-            type: "text",
-            color: "#FFFFFF",
-            haloColor: "#1A5276",
-            haloSize: "2px",
-            font: {
-              size: 12,
-              family: "Noto Sans",
-              style: "italic",
-              weight: "normal"
-            }
-          },
-          labelPlacement: "above-center",
-          labelExpressionInfo: {
-            expression: "$feature.name"
-          }
-        };
-
-        //const for airport visited labels
-        const airportVisitedLabels = {
-          symbol: {
-            type: "text",
-            color: "#FFFFFF",
-            haloColor: "#8B0000",
-            haloSize: "2px",
-            font: {
-              size: 12,
-              family: "Noto Sans",
-              style: "italic",
-              weight: "normal"
-            }
-          },
-          labelPlacement: "below-center",
-          labelExpressionInfo: {
-            expression: "$feature.AirportCode"
-          }
-        };
-
-        //const for icon airport
-        const airportRenderer = {
-          type: "simple",
-          symbol: {
-            type: "picture-marker",
-            url: "https://dski97.github.io/agol-dom/outline_local_airport_black_24dp.png",
-            width: "18px",
-            height: "18px"
-          }
-        };
-
-        //const for icon helicopter
-        const helicopterRenderer = {
-          type: "simple",
-          symbol: {
-            type: "picture-marker",
-            url: "https://dski97.github.io/agol-dom/heliport.png",
-            width: "18px",
-            height: "18px"
-          }};
-
-          //const for icon airport visited
-        const airportVisitedRenderer = {
-          type: "simple",
-          symbol: {
-            type: "picture-marker",
-            url: "https://dski97.github.io/agolrest-dom/outline_download_done_black_24dp.png",
-            width: "18px",
-            height: "18px"
-          }
-        };
-
-        // Create a FeatureLayer from a service (transport) - airport
-        const transportAirport = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Transport/FeatureServer",
-          renderer: airportRenderer,
-          definitionExpression: "fclass = 'Airport'",
-          outFields: ["name", "fclass", "district"],
-          labelingInfo: [airportLabels],
-          popupTemplate: featureLayerPopupTemplate_transport,
-          title: "Airports"
-        });
-        
-        // Create a FeatureLayer from a service (transport) - helicopter
-        const transportHelicopter = new FeatureLayer({
-          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/Transport/FeatureServer",
-          renderer: helicopterRenderer,
-          definitionExpression: "fclass = 'Helipad'",
-          outFields: ["name", "fclass", "district"],
-          labelingInfo: [helicopterLabels],
-          popupTemplate: featureLayerPopupTemplate_transport,
-          title: "Helipads"
-        });
-      
-        // Add the feature layer to the map
-        map.add(transportAirport);
-        map.add(transportHelicopter);
-  
-
+ 
       // Expand widget for basemap gallery
       const bgExpand = new Expand({
         view: view,
