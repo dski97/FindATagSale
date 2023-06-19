@@ -179,7 +179,7 @@
         content: legend,
         expandIconClass: "esri-icon-layer-list",
         expandTooltip: "Legend",
-        expanded: true
+        expanded: window.innerWidth > 768 //expand in desktop mode
       });
       view.ui.add(legendExpand, "bottom-left");
 
@@ -251,12 +251,14 @@
       }
 
       .modal-content {
-        background-color: #e7e7e7;
-        margin: auto;
-        padding: 20px;
-        border: 8px solid #888;
-        width: 80%;
-      }
+      background-color: #e7e7e7;
+      margin: auto;
+      padding: 20px;
+      border: 8px solid #888;
+      width: 80%;
+      max-height: 80vh; /* This will limit the height to 80% of the viewport height */
+      overflow-y: auto; /* This will allow vertical scrolling if the content exceeds the max height */
+    }
 
       .close {
         color: #aaaaaa;
@@ -294,11 +296,15 @@
             <li><strong>Locate Button:</strong> Want to see tag sales near your current location? Click on the locate button at the top left corner of the map to center the view on your current location.</li>
             <li><strong>Basemap Gallery:</strong> Want a different view? Click on the basemap icon at the top right corner to change the map's appearance to best suit your preference.</li>
             <li><strong>Legend:</strong> Not sure what the symbols on the map mean? Click on the legend button at the bottom left corner for a breakdown of all the symbols used on the map.</li>
+            <li><strong>Layer Control:</strong> Click on the layers button at the top right corner to toggle different map layers on or off. This allows you to customize the map view to your preference.</li>
+            <li><strong>Submit your Tag Sale:</strong> Hosting a tag sale? Use the "Submit your Tag Sale" button to add your tag sale to the map. This will allow others to find your tag sale using this app.</li>
         </ul>
         <p>Start exploring now and find your next treasure at a tag sale near you! Click on the 'X' or anywhere outside this box to close this message and start using the application.</p>
     </div>
 </div>
 
+<!-- button for survey-->
+<button onclick="window.location.href='https://arcg.is/XmmKT'" style="position: absolute; top: 10px; right: 10px;">Submit your Tag Sale</button>
 
 </body>
 </html>
