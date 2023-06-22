@@ -58,12 +58,20 @@
         basemap: "arcgis-topographic" // Basemap layer
       });
 
-      //view of connecticut
       const view = new MapView({
-        map: map,
-        center: [-72.7, 41.62], // Longitude, latitude
-        zoom: 9, // Zoom level
-        container: "viewDiv" // Div element
+      map: map,
+      center: [-72.7, 41.62], // Longitude, latitude
+      zoom: 9, // Zoom level
+      container: "viewDiv", // Div element
+      extent: { // setting the extent of the map
+        xmin: -73.727775,
+        ymin: 40.980679,
+        xmax: -71.786994,
+        ymax: 42.050587,
+        spatialReference: {
+          wkid: 4326
+        }
+        }
       });
 
         //add the feature layer for ct towns
@@ -130,8 +138,8 @@
               symbol: {
                 type: "picture-marker",
                 url: "https://dski97.github.io/FindATagSale/YARD-SALE.png",
-                width: "30px",
-                height: "30px"
+                width: "40px",
+                height: "40px"
               },
             }
             });
