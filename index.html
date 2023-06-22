@@ -58,20 +58,12 @@
         basemap: "arcgis-topographic" // Basemap layer
       });
 
-      const view = new MapView({
-      map: map,
-      center: [-72.7, 41.62], // Longitude, latitude
-      zoom: 9, // Zoom level
-      container: "viewDiv", // Div element
-      extent: { // setting the extent of the map
-        xmin: -73.727775,
-        ymin: 40.980679,
-        xmax: -71.786994,
-        ymax: 42.050587,
-        spatialReference: {
-          wkid: 4326
-        }
-        }
+          //view of connecticut
+          const view = new MapView({
+        map: map,
+        center: [-72.7, 41.62], // Longitude, latitude
+        zoom: 9, // Zoom level
+        container: "viewDiv" // Div element
       });
 
         //add the feature layer for ct towns
@@ -115,8 +107,18 @@
 
         const goodwillDonationCenters = new FeatureLayer({
           url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/ArcGIS/rest/services/USA_Goodwill_Locations/FeatureServer/0",
-          title: "Connecticut Goodwill Locations"
+          title: "Connecticut Goodwill Locations",
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "picture-marker",
+              url: "https://raw.githubusercontent.com/dski97/FindATagSale/main/goodwill.png",
+              width: "20px",
+              height: "12px",
+          },
+        }
           });
+
           map.add(goodwillDonationCenters);
           //set the defintion expression for the other donation centers
           goodwillDonationCenters.definitionExpression = "STATE = 'CT'";
